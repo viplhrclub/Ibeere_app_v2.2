@@ -27,7 +27,7 @@ extension ShowDialogExt on BuildContext {
       barrierLabel: '',
       barrierColor: Colors.black54,
       transitionDuration: const Duration(milliseconds: 300),
-      pageBuilder: (dialogCtx, _, _) => QDialog(
+      pageBuilder: (dialogCtx, animation, secondaryAnimation) => QDialog(
         key: ValueKey('dialog_${{title ?? message}}'),
         title: title,
         message: message,
@@ -40,7 +40,7 @@ extension ShowDialogExt on BuildContext {
         },
         onCancel: onCancel ?? dialogCtx.shouldPop,
       ),
-      transitionBuilder: (_, animation, _, child) {
+      transitionBuilder: (context, animation, secondaryAnimation, child) {
         final curve = CurvedAnimation(
           parent: animation,
           curve: Curves.easeOutBack,

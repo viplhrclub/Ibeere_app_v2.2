@@ -1,11 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutterquiz/commons/commons.dart';
-import 'package:flutterquiz/core/core.dart';
-import 'package:flutterquiz/features/auth/cubits/auth_cubit.dart';
-import 'package:flutterquiz/features/quiz/models/quiz_type.dart';
-import 'package:flutterquiz/features/system_config/cubits/system_config_cubit.dart';
-import 'package:flutterquiz/ui/widgets/all.dart';
 
 final class PlayZoneTabScreen extends StatefulWidget {
   const PlayZoneTabScreen({super.key});
@@ -15,126 +8,16 @@ final class PlayZoneTabScreen extends StatefulWidget {
 }
 
 final class PlayZoneTabScreenState extends State<PlayZoneTabScreen>
-    with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
-  final _scrollController = ScrollController();
-
-  final _playZones = <Zone>[];
-  final List<AnimationController> _controllers = [];
-  final List<Animation<double>> _scaleAnimations = [];
-  final List<Animation<double>> _opacityAnimations = [];
-
-  @override
-  void initState() {
-    super.initState();
-    _initializePlayZones();
-    _initializeAnimations();
-  }
-
-  void _initializeAnimations() {
-    const animDuration = Duration(milliseconds: 350);
-    const staggerDelay = 60;
-
-    for (var i = 0; i < _playZones.length; i++) {
-      final controller = AnimationController(
-        duration: animDuration,
-        vsync: this,
-      );
-      final curve = CurvedAnimation(
-        parent: controller,
-        curve: Curves.easeOutBack,
-      );
-
-      _controllers.add(controller);
-      _scaleAnimations.add(Tween<double>(begin: .7, end: 1).animate(curve));
-      _opacityAnimations.add(Tween<double>(begin: 0, end: 1).animate(curve));
-
-      Future.delayed(
-        Duration(milliseconds: staggerDelay * i),
-        controller.forward,
-      );
-    }
-  }
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    for (final controller in _controllers) {
-      controller.dispose();
-    }
-    super.dispose();
-  }
-
-  void onTapTab() {
-    if (_scrollController.hasClients && _scrollController.offset != 0) {
-      _scrollController.animateTo(
-        0,
-        duration: const Duration(milliseconds: 200),
-        curve: Curves.easeInOut,
-      );
-    }
-  }
-
-  void _initializePlayZones() {
-    final systemConfig = context.read<SystemConfigCubit>().state;
-    final isGuest = context.read<AuthCubit>().state.isGuest;
-
-    if (systemConfig.isDailyQuizAvailable) {
-      _playZones.add(
-        Zone(
-          title: context.tr('dailyQuiz')!,
-          image: Assets.dailyQuiz,
-          type: QuizTypes.daily,
-          enable: true,
-        ),
-      );
-    }
-
-    if (systemConfig.isGroupBattleEnabled) {
-      _playZones.add(
-        Zone(
-          title: context.tr('groupBattle')!,
-          image: Assets.groupBattle,
-          type: QuizTypes.groupBattle,
-          enable: !isGuest,
-        ),
-      );
-    }
-  }
-
+    with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Scaffold(
-      body: ListView.builder(
-        controller: _scrollController,
-        padding: const EdgeInsets.all(16),
-        itemCount: _playZones.length,
-        itemBuilder: (context, index) {
-          final zone = _playZones[index];
-          return AnimatedBuilder(
-            animation: _controllers[index],
-            builder: (context, child) {
-              return Opacity(
-                opacity: _opacityAnimations[index].value,
-                child: Transform.scale(
-                  scale: _scaleAnimations[index].value,
-                  child: child,
-                ),
-              );
-            },
-            child: ZoneCard(
-              zone: zone,
-              onTap: () {
-                if (zone.enable) {
-                  context.navigateTo(zone.type.route);
-                }
-              },
-            ),
-          );
-        },
+    return const Scaffold(
+      body: Center(
+        child: Text('Play Zone'),
       ),
     );
   }
