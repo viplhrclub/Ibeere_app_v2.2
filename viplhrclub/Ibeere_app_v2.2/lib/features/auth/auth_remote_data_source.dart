@@ -13,7 +13,7 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class AuthRemoteDataSource {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final GoogleSignIn _googleSignIn = GoogleSignIn.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   //to addUser
   Future<Map<String, dynamic>> addUser({
@@ -39,7 +39,7 @@ class AuthRemoteDataSource {
         mobileKey: mobile ?? '',
         fcmIdKey: fcmToken,
         friendCodeKey: friendCode ?? '',
-        'app_language': ?appLanguage,
+        if (appLanguage != null) 'app_language': appLanguage,
       };
 
       final response = await http.post(Uri.parse(addUserUrl), body: body);
@@ -189,16 +189,14 @@ class AuthRemoteDataSource {
 
   //signIn using google account
   Future<UserCredential> signInWithGoogle() async {
-    await _googleSignIn.initialize();
-    final googleUser = await _googleSignIn.authenticate(
-      scopeHint: ['email', 'profile'],
-    );
-    final googleAuth = googleUser.authentication;
-    final authClient = await googleUser.authorizationClient
-        .authorizationForScopes(['email', 'profile']);
+    final googleUser = await _googleSignIn.signIn();
+    if (googleUser == null) {
+      throw const ApiException('Google sign in was cancelled');
+    }
+    final googleAuth = await googleUser.authentication;
 
     final credential = GoogleAuthProvider.credential(
-      accessToken: authClient?.accessToken,
+      accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
     );
 
@@ -287,7 +285,6 @@ class AuthRemoteDataSource {
   Future<void> signOut(AuthProviders? authProvider) async {
     await _firebaseAuth.signOut();
     if (authProvider == AuthProviders.gmail) {
-      await _googleSignIn.initialize();
       await _googleSignIn.signOut();
     }
   }

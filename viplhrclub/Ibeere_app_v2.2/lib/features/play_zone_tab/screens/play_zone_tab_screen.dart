@@ -73,3 +73,69 @@ final class PlayZoneTabScreenState extends State<PlayZoneTabScreen>
       );
     }
   }
+
+  void _initializePlayZones() {
+    final systemConfig = context.read<SystemConfigCubit>().state;
+    final isGuest = context.read<AuthCubit>().state.isGuest;
+
+    if (systemConfig.isDailyQuizAvailable) {
+      _playZones.add(
+        Zone(
+          title: context.tr('dailyQuiz')!,
+          image: Assets.dailyQuiz,
+          type: QuizTypes.daily,
+          enable: true,
+        ),
+      );
+    }
+
+    if (systemConfig.isGroupBattleEnabled) {
+      _playZones.add(
+        Zone(
+          title: context.tr('groupBattle')!,
+          image: Assets.groupBattle,
+          type: QuizTypes.groupBattle,
+          enable: !isGuest,
+        ),
+      );
+    }
+  }
+
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return Scaffold(
+      body: ListView.builder(
+        controller: _scrollController,
+        padding: const EdgeInsets.all(16),
+        itemCount: _playZones.length,
+        itemBuilder: (context, index) {
+          final zone = _playZones[index];
+          return AnimatedBuilder(
+            animation: _controllers[index],
+            builder: (context, child) {
+              return Opacity(
+                opacity: _opacityAnimations[index].value,
+                child: Transform.scale(
+                  scale: _scaleAnimations[index].value,
+                  child: child,
+                ),
+              );
+            },
+            child: ZoneCard(
+              zone: zone,
+              onTap: () {
+                if (zone.enable) {
+                  context.navigateTo(zone.type.route);
+                }
+              },
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
