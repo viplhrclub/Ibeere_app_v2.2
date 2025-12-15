@@ -36,6 +36,19 @@ import 'package:flutterquiz/ui/screens/splash_screen.dart';
 import 'package:flutterquiz/ui/screens/splash_screen_variant_2.dart';
 import 'package:flutterquiz/ui/screens/splash_screen_variant_3.dart';
 import 'package:flutterquiz/ui/screens/statistics_screen.dart';
+import 'package:flutterquiz/ui/screens/splash_onboarding_1_screen.dart';
+import 'package:flutterquiz/ui/screens/splash_onboarding_2_screen.dart';
+import 'package:flutterquiz/ui/screens/splash_onboarding_3_screen.dart';
+import 'package:flutterquiz/ui/screens/language_theme_selection_screen.dart';
+import 'package:flutterquiz/ui/screens/sign_up_profile_screen.dart';
+import 'package:flutterquiz/ui/screens/home_quiz_feed_screen.dart';
+import 'package:flutterquiz/ui/screens/referral_rewards_screen.dart';
+import 'package:flutterquiz/ui/screens/badges_collection_screen.dart';
+import 'package:flutterquiz/ui/screens/phone_login_screen_v2.dart';
+import 'package:flutterquiz/ui/screens/otp_verification_screen_v2.dart';
+import 'package:flutterquiz/ui/screens/email_sign_in_screen_v2.dart';
+import 'package:flutterquiz/ui/screens/coin_history_screen_v2.dart';
+import 'package:flutterquiz/ui/screens/mini_games_screen.dart';
 
 final globalNavigator = GlobalKey<NavigatorState>();
 final BuildContext globalCtx = globalNavigator.currentContext!;
@@ -140,6 +153,19 @@ class Routes {
   static const performance = '/performance';
   static const subscription = '/subscription';
   static const referral = '/referral';
+  static const splashOnboarding1 = '/splashOnboarding1';
+  static const splashOnboarding2 = '/splashOnboarding2';
+  static const splashOnboarding3 = '/splashOnboarding3';
+  static const languageThemeSelection = '/languageThemeSelection';
+  static const signUpProfile = '/signUpProfile';
+  static const homeQuizFeed = '/homeQuizFeed';
+  static const referralRewards = '/referralRewards';
+  static const badgesCollection = '/badgesCollection';
+  static const phoneLoginV2 = '/phoneLoginV2';
+  static const otpVerificationV2 = '/otpVerificationV2';
+  static const emailSignInV2 = '/emailSignInV2';
+  static const coinHistoryV2 = '/coinHistoryV2';
+  static const miniGames = '/miniGames';
 
   static String currentRoute = splash;
 
@@ -227,6 +253,33 @@ class Routes {
         return CupertinoPageRoute(builder: (_) => const HomeScreenVariant3());
       case homeVariant4:
         return CupertinoPageRoute(builder: (_) => const HomeScreenVariant4());
+      case splashOnboarding1:
+        return CupertinoPageRoute(builder: (_) => const SplashOnboarding1Screen());
+      case splashOnboarding2:
+        return CupertinoPageRoute(builder: (_) => const SplashOnboarding2Screen());
+      case splashOnboarding3:
+        return CupertinoPageRoute(builder: (_) => const SplashOnboarding3Screen());
+      case languageThemeSelection:
+        return CupertinoPageRoute(builder: (_) => const LanguageThemeSelectionScreen());
+      case signUpProfile:
+        return CupertinoPageRoute(builder: (_) => const SignUpProfileScreen());
+      case homeQuizFeed:
+        return CupertinoPageRoute(builder: (_) => const HomeQuizFeedScreen());
+      case referralRewards:
+        return CupertinoPageRoute(builder: (_) => const ReferralRewardsScreen());
+      case badgesCollection:
+        return CupertinoPageRoute(builder: (_) => const BadgesCollectionScreen());
+      case phoneLoginV2:
+        return CupertinoPageRoute(builder: (_) => const PhoneLoginScreenV2());
+      case otpVerificationV2:
+        final phoneNumber = (args as Map<String, dynamic>?)?['phoneNumber'] as String? ?? '';
+        return CupertinoPageRoute(builder: (_) => OtpVerificationScreenV2(phoneNumber: phoneNumber));
+      case emailSignInV2:
+        return CupertinoPageRoute(builder: (_) => const EmailSignInScreenV2());
+      case coinHistoryV2:
+        return CupertinoPageRoute(builder: (_) => const CoinHistoryScreenV2());
+      case miniGames:
+        return CupertinoPageRoute(builder: (_) => const MiniGamesScreen());
       default:
         return CupertinoPageRoute(builder: (_) => const Scaffold());
     }
