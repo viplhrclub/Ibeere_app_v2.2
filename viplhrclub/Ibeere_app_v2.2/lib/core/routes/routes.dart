@@ -36,6 +36,37 @@ import 'package:flutterquiz/ui/screens/splash_screen.dart';
 import 'package:flutterquiz/ui/screens/splash_screen_variant_2.dart';
 import 'package:flutterquiz/ui/screens/splash_screen_variant_3.dart';
 import 'package:flutterquiz/ui/screens/statistics_screen.dart';
+import 'package:flutterquiz/ui/screens/splash_onboarding_1_screen.dart';
+import 'package:flutterquiz/ui/screens/splash_onboarding_2_screen.dart';
+import 'package:flutterquiz/ui/screens/splash_onboarding_3_screen.dart';
+import 'package:flutterquiz/ui/screens/language_theme_selection_screen.dart';
+import 'package:flutterquiz/ui/screens/phone_login_screen_v2.dart';
+import 'package:flutterquiz/ui/screens/otp_verification_screen_v2.dart';
+import 'package:flutterquiz/ui/screens/email_sign_in_screen_v2.dart';
+import 'package:flutterquiz/ui/screens/home_quiz_feed_screen.dart';
+import 'package:flutterquiz/ui/screens/referral_rewards_screen.dart';
+import 'package:flutterquiz/ui/screens/badges_collection_screen.dart';
+import 'package:flutterquiz/ui/screens/mini_games_screen.dart';
+import 'package:flutterquiz/ui/screens/sign_up_profile_screen.dart';
+import 'package:flutterquiz/ui/screens/quiz_playing_screen.dart';
+import 'package:flutterquiz/ui/screens/quiz_results_screen.dart';
+import 'package:flutterquiz/ui/screens/review_quiz_screen.dart';
+import 'package:flutterquiz/ui/screens/category_selection_screen.dart';
+import 'package:flutterquiz/ui/screens/battle_room_selection_screen.dart';
+import 'package:flutterquiz/ui/screens/battle_countdown_screen.dart';
+import 'package:flutterquiz/ui/screens/leaderboard_rankings_screen.dart';
+import 'package:flutterquiz/ui/screens/profile_display_screen.dart';
+import 'package:flutterquiz/ui/screens/edit_profile_screen_v2.dart';
+import 'package:flutterquiz/ui/screens/notifications_screen_v2.dart';
+import 'package:flutterquiz/ui/screens/bookmarks_screen_v2.dart';
+import 'package:flutterquiz/ui/screens/rewards_screen_v2.dart';
+import 'package:flutterquiz/ui/screens/settings_screen_v2.dart';
+import 'package:flutterquiz/ui/screens/statistics_screen_v2.dart';
+import 'package:flutterquiz/ui/screens/friends_list_screen.dart';
+import 'package:flutterquiz/ui/screens/subscription_screen_v2.dart';
+import 'package:flutterquiz/ui/screens/search_screen_v2.dart';
+import 'package:flutterquiz/ui/screens/exam_mode_screen.dart';
+import 'package:flutterquiz/ui/screens/scratch_reward_screen.dart';
 
 final globalNavigator = GlobalKey<NavigatorState>();
 final BuildContext globalCtx = globalNavigator.currentContext!;
@@ -98,6 +129,37 @@ class Routes {
   static const selectRoom = '/selectRoom';
   static const category = '/category';
   static const editProfile = '/editProfile';
+  static const splashOnboarding1 = '/splash-onboarding-1';
+  static const splashOnboarding2 = '/splash-onboarding-2';
+  static const splashOnboarding3 = '/splash-onboarding-3';
+  static const languageThemeSelection = '/language-theme-selection';
+  static const phoneLoginV2 = '/phone-login';
+  static const otpVerificationV2 = '/otp-verification';
+  static const emailSignInV2 = '/email-sign-in';
+  static const homeQuizFeed = '/home-quiz-feed';
+  static const referralRewards = '/referral-rewards';
+  static const badgesCollection = '/badges-collection';
+  static const miniGames = '/mini-games';
+  static const signUpProfile = '/sign-up-profile';
+  static const quizPlaying = '/quiz-playing';
+  static const quizResults = '/quiz-results';
+  static const reviewQuiz = '/review-quiz';
+  static const categorySelection = '/category-selection';
+  static const battleRoomSelection = '/battle-room';
+  static const battleCountdown = '/battle-countdown';
+  static const leaderboardRankings = '/leaderboard-rankings';
+  static const profileDisplay = '/profile-display';
+  static const editProfileV2 = '/edit-profile-v2';
+  static const notificationsV2 = '/notifications-v2';
+  static const bookmarksV2 = '/bookmarks-v2';
+  static const rewardsV2 = '/rewards-v2';
+  static const settingsV2 = '/settings-v2';
+  static const statisticsV2 = '/statistics-v2';
+  static const friendsList = '/friends-list';
+  static const subscriptionV2 = '/subscription-v2';
+  static const searchV2 = '/search-v2';
+  static const examMode = '/exam-mode';
+  static const scratchReward = '/scratch-reward';
   static const settings = '/settings';
   static const reviewAnswers = '/reviewAnswers';
   static const selfChallenge = '/selfChallenge';
@@ -227,6 +289,69 @@ class Routes {
         return CupertinoPageRoute(builder: (_) => const HomeScreenVariant3());
       case homeVariant4:
         return CupertinoPageRoute(builder: (_) => const HomeScreenVariant4());
+      case splashOnboarding1:
+        return CupertinoPageRoute(builder: (_) => const SplashOnboarding1Screen());
+      case splashOnboarding2:
+        return CupertinoPageRoute(builder: (_) => const SplashOnboarding2Screen());
+      case splashOnboarding3:
+        return CupertinoPageRoute(builder: (_) => const SplashOnboarding3Screen());
+      case languageThemeSelection:
+        return CupertinoPageRoute(builder: (_) => const LanguageThemeSelectionScreen());
+      case phoneLoginV2:
+        return CupertinoPageRoute(builder: (_) => const PhoneLoginScreen());
+      case otpVerificationV2:
+        final phone = args as String? ?? '+229 00000000';
+        return CupertinoPageRoute(builder: (_) => OTPVerificationScreen(phoneNumber: phone));
+      case emailSignInV2:
+        return CupertinoPageRoute(builder: (_) => const EmailSignInScreen());
+      case homeQuizFeed:
+        return CupertinoPageRoute(builder: (_) => const HomeQuizFeedScreen());
+      case referralRewards:
+        return CupertinoPageRoute(builder: (_) => const ReferralRewardsScreen());
+      case badgesCollection:
+        return CupertinoPageRoute(builder: (_) => const BadgesCollectionScreen());
+      case miniGames:
+        return CupertinoPageRoute(builder: (_) => const MiniGamesScreen());
+      case signUpProfile:
+        return CupertinoPageRoute(builder: (_) => const SignUpProfileScreen());
+      case quizPlaying:
+        return CupertinoPageRoute(builder: (_) => const QuizPlayingScreen());
+      case quizResults:
+        return CupertinoPageRoute(builder: (_) => const QuizResultsScreen());
+      case reviewQuiz:
+        return CupertinoPageRoute(builder: (_) => const ReviewQuizScreen());
+      case categorySelection:
+        return CupertinoPageRoute(builder: (_) => const CategorySelectionScreen());
+      case battleRoomSelection:
+        return CupertinoPageRoute(builder: (_) => const BattleRoomScreen());
+      case battleCountdown:
+        return CupertinoPageRoute(builder: (_) => const BattleCountdownScreen());
+      case leaderboardRankings:
+        return CupertinoPageRoute(builder: (_) => const LeaderboardRankingsScreen());
+      case profileDisplay:
+        return CupertinoPageRoute(builder: (_) => const ProfileDisplayScreen());
+      case editProfileV2:
+        return CupertinoPageRoute(builder: (_) => const EditProfileScreen());
+      case notificationsV2:
+        return CupertinoPageRoute(builder: (_) => const NotificationsScreenV2());
+      case bookmarksV2:
+        return CupertinoPageRoute(builder: (_) => const BookmarksScreenV2());
+      case rewardsV2:
+        return CupertinoPageRoute(builder: (_) => const RewardsScreen());
+      case settingsV2:
+        return CupertinoPageRoute(builder: (_) => const SettingsScreenV2());
+      case statisticsV2:
+        return CupertinoPageRoute(builder: (_) => const StatisticsScreenV2());
+      case friendsList:
+        return CupertinoPageRoute(builder: (_) => const FriendsListScreen());
+      case subscriptionV2:
+        return CupertinoPageRoute(builder: (_) => const SubscriptionScreenV2());
+      case searchV2:
+        return CupertinoPageRoute(builder: (_) => const SearchScreenV2());
+      case examMode:
+        return CupertinoPageRoute(builder: (_) => const ExamModeScreen());
+      case scratchReward:
+        return CupertinoPageRoute(builder: (_) => const ScratchRewardScreen());
       default:
         return CupertinoPageRoute(builder: (_) => const Scaffold());
     }
