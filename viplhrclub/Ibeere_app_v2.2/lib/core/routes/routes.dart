@@ -36,6 +36,13 @@ import 'package:flutterquiz/ui/screens/splash_screen.dart';
 import 'package:flutterquiz/ui/screens/splash_screen_variant_2.dart';
 import 'package:flutterquiz/ui/screens/splash_screen_variant_3.dart';
 import 'package:flutterquiz/ui/screens/statistics_screen.dart';
+import 'package:flutterquiz/ui/screens/splash_onboarding_1_screen.dart';
+import 'package:flutterquiz/ui/screens/splash_onboarding_2_screen.dart';
+import 'package:flutterquiz/ui/screens/splash_onboarding_3_screen.dart';
+import 'package:flutterquiz/ui/screens/language_theme_selection_screen.dart';
+import 'package:flutterquiz/ui/screens/phone_login_screen_v2.dart';
+import 'package:flutterquiz/ui/screens/otp_verification_screen_v2.dart';
+import 'package:flutterquiz/ui/screens/email_sign_in_screen_v2.dart';
 
 final globalNavigator = GlobalKey<NavigatorState>();
 final BuildContext globalCtx = globalNavigator.currentContext!;
@@ -98,6 +105,13 @@ class Routes {
   static const selectRoom = '/selectRoom';
   static const category = '/category';
   static const editProfile = '/editProfile';
+  static const splashOnboarding1 = '/splash-onboarding-1';
+  static const splashOnboarding2 = '/splash-onboarding-2';
+  static const splashOnboarding3 = '/splash-onboarding-3';
+  static const languageThemeSelection = '/language-theme-selection';
+  static const phoneLoginV2 = '/phone-login';
+  static const otpVerificationV2 = '/otp-verification';
+  static const emailSignInV2 = '/email-sign-in';
   static const settings = '/settings';
   static const reviewAnswers = '/reviewAnswers';
   static const selfChallenge = '/selfChallenge';
@@ -227,6 +241,21 @@ class Routes {
         return CupertinoPageRoute(builder: (_) => const HomeScreenVariant3());
       case homeVariant4:
         return CupertinoPageRoute(builder: (_) => const HomeScreenVariant4());
+      case splashOnboarding1:
+        return CupertinoPageRoute(builder: (_) => const SplashOnboarding1Screen());
+      case splashOnboarding2:
+        return CupertinoPageRoute(builder: (_) => const SplashOnboarding2Screen());
+      case splashOnboarding3:
+        return CupertinoPageRoute(builder: (_) => const SplashOnboarding3Screen());
+      case languageThemeSelection:
+        return CupertinoPageRoute(builder: (_) => const LanguageThemeSelectionScreen());
+      case phoneLoginV2:
+        return CupertinoPageRoute(builder: (_) => const PhoneLoginScreen());
+      case otpVerificationV2:
+        final phone = args as String? ?? '+229 00000000';
+        return CupertinoPageRoute(builder: (_) => OTPVerificationScreen(phoneNumber: phone));
+      case emailSignInV2:
+        return CupertinoPageRoute(builder: (_) => const EmailSignInScreen());
       default:
         return CupertinoPageRoute(builder: (_) => const Scaffold());
     }
