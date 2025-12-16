@@ -36,6 +36,15 @@ import 'package:flutterquiz/ui/screens/splash_screen.dart';
 import 'package:flutterquiz/ui/screens/splash_screen_variant_2.dart';
 import 'package:flutterquiz/ui/screens/splash_screen_variant_3.dart';
 import 'package:flutterquiz/ui/screens/statistics_screen.dart';
+import 'package:flutterquiz/ui/screens/battle_mode_selection_screen.dart';
+import 'package:flutterquiz/ui/screens/battle_room_creation_screen.dart';
+import 'package:flutterquiz/ui/screens/categories_api_screen.dart';
+import 'package:flutterquiz/ui/screens/guess_word_screen.dart';
+import 'package:flutterquiz/ui/screens/leaderboard_rankings_screen.dart';
+import 'package:flutterquiz/ui/screens/quiz_battle_screen.dart';
+import 'package:flutterquiz/ui/screens/quiz_number_puzzle_screen.dart';
+import 'package:flutterquiz/ui/screens/quiz_victory_results_screen.dart';
+import 'package:flutterquiz/ui/screens/user_statistics_screen.dart';
 
 final globalNavigator = GlobalKey<NavigatorState>();
 final BuildContext globalCtx = globalNavigator.currentContext!;
@@ -140,6 +149,15 @@ class Routes {
   static const performance = '/performance';
   static const subscription = '/subscription';
   static const referral = '/referral';
+  static const battleModeSelection = '/battle-mode-selection';
+  static const battleRoomCreation = '/battle-room-creation';
+  static const categoriesApi = '/categories-api';
+  static const guessWord = '/guess-word';
+  static const leaderboardRankings = '/leaderboard-rankings';
+  static const quizBattle = '/quiz-battle';
+  static const quizNumberPuzzle = '/quiz-number-puzzle';
+  static const quizVictoryResults = '/quiz-victory-results';
+  static const userStatistics = '/user-statistics';
 
   static String currentRoute = splash;
 
@@ -227,6 +245,24 @@ class Routes {
         return CupertinoPageRoute(builder: (_) => const HomeScreenVariant3());
       case homeVariant4:
         return CupertinoPageRoute(builder: (_) => const HomeScreenVariant4());
+      case battleModeSelection:
+        return CupertinoPageRoute(builder: (_) => const BattleModeSelectionScreen());
+      case battleRoomCreation:
+        return CupertinoPageRoute(builder: (_) => const BattleRoomCreationScreen());
+      case categoriesApi:
+        return CupertinoPageRoute(builder: (_) => const CategoriesApiScreen());
+      case guessWord:
+        return CupertinoPageRoute(builder: (_) => const GuessWordScreen());
+      case leaderboardRankings:
+        return CupertinoPageRoute(builder: (_) => const LeaderboardRankingsScreen());
+      case quizBattle:
+        return CupertinoPageRoute(builder: (_) => const QuizBattleScreen());
+      case quizNumberPuzzle:
+        return CupertinoPageRoute(builder: (_) => const QuizNumberPuzzleScreen());
+      case quizVictoryResults:
+        return CupertinoPageRoute(builder: (_) => const QuizVictoryResultsScreen());
+      case userStatistics:
+        return CupertinoPageRoute(builder: (_) => const UserStatisticsScreen());
       default:
         return CupertinoPageRoute(builder: (_) => const Scaffold());
     }
