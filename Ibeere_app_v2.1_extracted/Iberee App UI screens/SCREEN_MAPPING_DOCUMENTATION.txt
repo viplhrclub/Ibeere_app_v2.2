@@ -1,0 +1,227 @@
+IBEERE UI SCREENS - COMPLETE MAPPING DOCUMENTATION
+================================================================================
+
+Date: 2025-12-16 08:03:25
+Total screens: 65
+
+ORIGINAL FILENAME → CORRECTED FILENAME
+--------------------------------------------------------------------------------
+
+01_splash_screen_1.jpg
+  → 01_splash_screen_logo.jpg
+
+01_splash_screen_2.jpg
+  → 02_splash_screen_onboarding_intro.jpg
+
+01_splash_screen_3.jpg
+  → 03_splash_screen_get_ready.jpg
+
+04_onboarding_screen_1.jpg
+  → 04_onboarding_step_1_challenges.jpg
+
+04_onboarding_screen_2.jpg
+  → 05_onboarding_step_2_quizzes.jpg
+
+04_onboarding_screen_3.jpg
+  → 06_onboarding_step_3_compete.jpg
+
+04_onboarding_screen_4.jpg
+  → 07_onboarding_step_4_phone_login.jpg
+
+04_onboarding_screen_5.jpg
+  → 08_onboarding_step_5_otp_verification.jpg
+
+09_language_selection_screen_1.jpg
+  → 09_language_selection_grid.jpg
+
+09_language_selection_screen_2.jpg
+  → 10_language_selection_selected.jpg
+
+11_sign_in_screen_1.jpg
+  → 62_settings_screen_main.jpg
+
+11_sign_in_screen_2.jpg
+  → 62_settings_screen_main_v2.jpg
+
+11_sign_in_screen_3.jpg
+  → 62_settings_screen_about_app.jpg
+
+14_sign_up_screen_1.jpg
+  → 11_profile_setup_avatar_selection.jpg
+
+14_sign_up_screen_2.jpg
+  → 65_coin_transaction_history.jpg
+
+14_sign_up_screen_3.jpg
+  → 65_kauris_store_purchase.jpg
+
+17_otp_screen_1.jpg
+  → 65_payment_method_selection.jpg
+
+17_otp_screen_2.jpg
+  → 65_payment_success_modal.jpg
+
+19_forgot_password_screen_1.jpg
+  → 65_payment_success_standalone.jpg
+
+19_forgot_password_screen_2.jpg
+  → 59_notifications_screen_list.jpg
+
+21_home_screen_1.jpg
+  → 21_home_tab_quiz_zone.jpg
+
+21_home_screen_2.jpg
+  → 22_home_tab_quiz_zone_v2.jpg
+
+21_home_screen_3.jpg
+  → 23_home_tab_quiz_zone_v3.jpg
+
+21_home_screen_4.jpg
+  → 24_home_tab_guess_word.jpg
+
+25_search_screen_1.jpg
+  → 25_mini_games_grid.jpg
+
+25_search_screen_2.jpg
+  → 26_mini_games_grid_v2.jpg
+
+25_search_screen_3.jpg
+  → 27_mini_games_grid_v3.jpg
+
+28_category_screen_1.jpg
+  → 44_profile_statistics_screen.jpg
+
+28_category_screen_2.jpg
+  → 45_profile_statistics_v2.jpg
+
+28_category_screen_3.jpg
+  → 46_profile_statistics_v3.jpg
+
+31_quiz_zone_screen_1.jpg
+  → 57_rewards_screen_scratch.jpg
+
+31_quiz_zone_screen_2.jpg
+  → 58_rewards_screen_prizes.jpg
+
+33_quiz_screen_1.jpg
+  → 33_quiz_screen_question_1.jpg
+
+33_quiz_screen_2.jpg
+  → 34_quiz_screen_question_2.jpg
+
+33_quiz_screen_3.jpg
+  → 35_quiz_screen_question_3.jpg
+
+36_quiz_results_screen_1.jpg
+  → 36_guess_word_game_keyboard.jpg
+
+36_quiz_results_screen_2.jpg
+  → 37_guess_word_game_v2.jpg
+
+38_review_quiz_screen_1.jpg
+  → 38_review_quiz_answers.jpg
+
+38_review_quiz_screen_2.jpg
+  → 39_review_quiz_details.jpg
+
+40_battle_room_screen_1.jpg
+  → 40_quiz_victory_results.jpg
+
+40_battle_room_screen_2.jpg
+  → 41_quiz_victory_breakdown.jpg
+
+42_exam_screen_1.jpg
+  → 42_exam_mode_selection.jpg
+
+42_exam_screen_2.jpg
+  → 43_exam_difficulty_levels.jpg
+
+44_profile_screen_1.jpg
+  → 44_battle_countdown_starting.jpg
+
+44_profile_screen_2.jpg
+  → 45_battle_countdown_v2.jpg
+
+46_edit_profile_screen_1.jpg
+  → 46_edit_profile_form.jpg
+
+47_leaderboard_screen_1.jpg
+  → 47_exam_quiz_mode_selection.jpg
+
+47_leaderboard_screen_2.jpg
+  → 48_exam_quiz_levels.jpg
+
+49_friends_screen_1.jpg
+  → 49_quiz_battle_q1.jpg
+
+49_friends_screen_2.jpg
+  → 50_quiz_battle_q1_v2.jpg
+
+51_chat_screen_1.jpg
+  → 51_quiz_battle_q1_v3.jpg
+
+52_challenge_screen_1.jpg
+  → 52_quiz_battle_answered.jpg
+
+52_challenge_screen_2.jpg
+  → 53_quiz_battle_answered_v2.jpg
+
+54_bookmarks_screen_1.jpg
+  → 54_active_quiz_q2_timer.jpg
+
+55_badges_screen_1.jpg
+  → 55_quiz_battle_vs_players.jpg
+
+55_badges_screen_2.jpg
+  → 56_quiz_battle_vs_players_v2.jpg
+
+57_rewards_screen_1.jpg
+  → 57_quiz_battle_q1_economics.jpg
+
+58_scratch_reward_screen_1.jpg
+  → 58_quiz_battle_ducks_avatar.jpg
+
+59_notifications_screen_1.jpg
+  → 59_quiz_battle_vs_q1.jpg
+
+60_statistics_screen_1.jpg
+  → 60_quiz_battle_vs_q1_duplicate.jpg
+
+60_statistics_screen_2.jpg
+  → 61_quiz_battle_vs_q1_v2.jpg
+
+63_subscription_screen_1.jpg
+  → 63_chat_quick_messages.jpg
+
+64_performance_screen_1.jpg
+  → 64_quiz_battle_chat_bubble.jpg
+
+65_coin_store_screen_1.jpg
+  → 65_quiz_battle_economics_q.jpg
+
+66_referral_screen_1.jpg
+  → 66_chat_stickers_joker.jpg
+
+
+================================================================================
+CRITICAL FINDINGS:
+================================================================================
+
+1. Settings screens were labeled as 'sign in' (11_sign_in_*)
+2. Coin/payment screens were labeled as 'sign up' (14_sign_up_*)
+3. Payment/notifications screens were labeled as 'otp/forgot password' (17_*, 19_*)
+4. Mini games were labeled as 'search' (25_search_*)
+5. Profile/stats screens were labeled as 'category' (28_category_*)
+6. Rewards screens were labeled as 'quiz zone' (31_quiz_zone_*)
+7. Guess word game was labeled as 'quiz results' (36_quiz_results_*)
+8. Victory screen was labeled as 'battle room' (40_battle_room_*)
+9. Battle countdown was labeled as 'profile' (44_profile_*)
+10. Exam mode was labeled as 'leaderboard' (47_leaderboard_*)
+11. Quiz battles were labeled as 'friends/chat/challenge' (49_*, 51_*, 52_*)
+12. Active quiz was labeled as 'bookmarks' (54_bookmarks_*)
+13. Quiz battles were labeled as 'badges/rewards' (55_*, 57_*)
+14. Quiz battles were labeled as 'notifications/statistics' (59_*, 60_*)
+15. Chat stickers were labeled as 'subscription/referral' (63_*, 66_*)
+16. DUPLICATE FOUND: 60_statistics_screen_1.jpg is identical to 59_notifications_screen_1.jpg
+
+RECOMMENDATION: Use ONLY the corrected directory for all future implementations.
