@@ -40,7 +40,7 @@ final class BattleRoomRemoteDataSource {
         matchIdKey: matchId,
         categoryKey: categoryId,
         if (isRandom) 'random': '1',
-        'entry_coin': ?entryCoin?.toString(),
+        if (entryCoin != null) 'entry_coin': entryCoin.toString(),
       };
       if (categoryId.isEmpty) {
         body.remove(categoryKey);

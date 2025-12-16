@@ -47,26 +47,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAoko_Qt9xCmn34habaYi9Qwl9KcwBwcdY',
-    appId: '1:322915959213:android:c68427bed7bf53f542e124',
-    messagingSenderId: '322915959213',
-    projectId: 'quiz-flutter-new',
-    databaseURL: 'https://quiz-flutter-new-default-rtdb.firebaseio.com',
-    storageBucket: 'quiz-flutter-new.appspot.com',
+    apiKey: 'AIzaSyCOyDkgkjrHT51LyMqbzXjfOS5fW7ATtvA',
+    appId: '1:4545412556:android:93ee7f731e0615f08fb169',
+    messagingSenderId: '4545412556',
+    projectId: 'ibeere-xens',
+    storageBucket: 'ibeere-xens.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyChcZscTQiWbqGeHPrb52Ffmzw9En9iOlY',
-    appId: '1:322915959213:ios:c19bac87f4cd365642e124',
-    messagingSenderId: '322915959213',
-    projectId: 'quiz-flutter-new',
-    databaseURL: 'https://quiz-flutter-new-default-rtdb.firebaseio.com',
-    storageBucket: 'quiz-flutter-new.appspot.com',
-    androidClientId:
-        '322915959213-0ohq3pp1m8ihaaje0t0mt4knoadeiema.apps.googleusercontent.com',
-    iosClientId:
-        '322915959213-dh9pngcbov233e8hok2b4i142nem7vs4.apps.googleusercontent.com',
-    iosBundleId: 'com.wrteam.flutterquiz',
+    apiKey: 'AIzaSyCOyDkgkjrHT51LyMqbzXjfOS5fW7ATtvA',
+    appId: '1:4545412556:ios:93ee7f731e0615f08fb169',
+    messagingSenderId: '4545412556',
+    projectId: 'ibeere-xens',
+    storageBucket: 'ibeere-xens.firebasestorage.app',
+    iosBundleId: 'com.ibeere.fun',
   );
 
   static const FirebaseOptions web = FirebaseOptions(
