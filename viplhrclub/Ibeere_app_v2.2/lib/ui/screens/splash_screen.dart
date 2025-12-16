@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterquiz/core/theme/design_tokens.dart';
 
-/// Ibeere Splash Screen
-/// 
-/// Initial landing screen with logo and branding
-/// Displays animated splash with app name and tagline
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -12,103 +7,91 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _animationController;
+class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
   late Animation<double> _fadeAnimation;
-  late Animation<Offset> _slideAnimation;
+  late Animation<double> _scaleAnimation;
 
   @override
   void initState() {
     super.initState();
-    _setupAnimations();
-    _navigateToNext();
-  }
-
-  void _setupAnimations() {
-    _animationController = AnimationController(
+    _controller = AnimationController(
       duration: const Duration(milliseconds: 1500),
       vsync: this,
     );
-
-    _fadeAnimation = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
+    
+    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeIn),
     );
-
-    _slideAnimation = Tween<Offset>(begin: const Offset(0, 0.3), end: Offset.zero)
-        .animate(
-          CurvedAnimation(parent: _animationController, curve: Curves.easeOutCubic),
-        );
-
-    _animationController.forward();
-  }
-
-  void _navigateToNext() {
+    
+    _scaleAnimation = Tween<double>(begin: 0.8, end: 1.0).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic),
+    );
+    
+    _controller.forward();
+    
     Future.delayed(const Duration(seconds: 3), () {
       if (mounted) {
-        // Navigate to home or onboarding screen
-        Navigator.of(context).pushReplacementNamed('/home');
+        Navigator.of(context).pushReplacementNamed('/onboarding');
       }
     });
   }
 
   @override
   void dispose() {
-    _animationController.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: DesignTokens.primary,
+      backgroundColor: const Color(0xFFF8F9FA),
       body: Center(
         child: FadeTransition(
           opacity: _fadeAnimation,
-          child: SlideTransition(
-            position: _slideAnimation,
+          child: ScaleTransition(
+            scale: _scaleAnimation,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // Logo/Icon Container
                 Container(
-                  width: 100,
-                  height: 100,
+                  width: 140,
+                  height: 140,
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.15),
-                    shape: BoxShape.circle,
+                    color: const Color(0xFF6366F1),
+                    borderRadius: BorderRadius.circular(30),
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color(0xFF6366F1).withOpacity(0.3),
+                        blurRadius: 30,
+                        offset: const Offset(0, 10),
+                      ),
+                    ],
                   ),
-                  child: Center(
-                    child: Icon(
-                      Icons.quiz_rounded,
-                      size: 50,
-                      color: Colors.white,
-                    ),
+                  child: const Icon(
+                    Icons.games_outlined,
+                    size: 70,
+                    color: Colors.white,
                   ),
                 ),
                 const SizedBox(height: 32),
-                
-                // App Name
                 const Text(
-                  'Ibeere',
+                  'ibeere Games',
                   style: TextStyle(
-                    fontSize: 40,
+                    fontSize: 32,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    letterSpacing: 1,
+                    color: Color(0xFF1F2937),
+                    letterSpacing: -0.5,
                   ),
                 ),
                 const SizedBox(height: 12),
-                
-                // Tagline
                 Text(
-                  'Learn & Compete',
+                  'Test Your Knowledge',
                   style: TextStyle(
                     fontSize: 16,
-                    fontWeight: FontWeight.normal,
-                    color: Colors.white.withValues(alpha: 0.7),
-                    letterSpacing: 0.3,
+                    color: const Color(0xFF6B7280),
+                    letterSpacing: 0.2,
                   ),
                 ),
               ],
@@ -119,5 +102,3 @@ class _SplashScreenState extends State<SplashScreen>
     );
   }
 }
-
-
