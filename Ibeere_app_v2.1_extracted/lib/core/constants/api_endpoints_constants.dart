@@ -83,3 +83,6 @@ const getMultiMatchQuestionsByLevelUrl =
     '$_api/get_multi_match_questions_by_level';
 const multiMatchReportQuestionUrl = '$_api/multi_match_report_question';
 
+// Moneroo Payment Gateway
+const getMonerooSettingsUrl = '$_api/get_moneroo_settings';
+
