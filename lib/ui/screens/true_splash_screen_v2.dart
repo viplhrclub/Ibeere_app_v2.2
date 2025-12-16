@@ -48,67 +48,136 @@ class _TrueSplashScreenV2State extends State<TrueSplashScreenV2>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFFE8E7F5),
-              Color(0xFFF5F5FA),
-            ],
+      backgroundColor: Color(0xFFFAFAFC),
+      body: Stack(
+        children: [
+          Positioned(
+            top: 120,
+            left: 30,
+            child: _buildDecoShape(Color(0xFFFFE5E5), 50, 30),
           ),
-        ),
-        child: Center(
-          child: AnimatedBuilder(
-            animation: _controller,
-            builder: (context, child) {
-              return Opacity(
-                opacity: _fadeAnimation.value,
-                child: Transform.scale(
-                  scale: _scaleAnimation.value,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      RichText(
-                        text: TextSpan(
+          Positioned(
+            top: 200,
+            right: 40,
+            child: _buildDecoShape(Color(0xFFE8EDFF), 40, 40),
+          ),
+          Positioned(
+            bottom: 250,
+            left: 50,
+            child: _buildDecoShape(Color(0xFFFFF5E5), 45, 35),
+          ),
+          Positioned(
+            bottom: 180,
+            right: 30,
+            child: _buildDecoShape(Color(0xFFE8F5E9), 55, 45),
+          ),
+          Center(
+            child: AnimatedBuilder(
+              animation: _controller,
+              builder: (context, child) {
+                return Opacity(
+                  opacity: _fadeAnimation.value,
+                  child: Transform.scale(
+                    scale: _scaleAnimation.value,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Stack(
+                          alignment: Alignment.center,
                           children: [
-                            TextSpan(
-                              text: 'ibeere',
+                            Positioned(
+                              top: -10,
+                              left: -30,
+                              child: Icon(Icons.play_arrow, color: Color(0xFF6366F1), size: 20),
+                            ),
+                            Positioned(
+                              top: 15,
+                              right: -25,
+                              child: Container(
+                                width: 8,
+                                height: 8,
+                                decoration: BoxDecoration(
+                                  color: Color(0xFFEC4899),
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              bottom: -15,
+                              right: -20,
+                              child: Container(
+                                width: 10,
+                                height: 10,
+                                decoration: BoxDecoration(
+                                  color: Color(0xFFFCD34D),
+                                  borderRadius: BorderRadius.circular(2),
+                                ),
+                              ),
+                            ),
+                            Text(
+                              'ibeere',
                               style: TextStyle(
-                                fontSize: 64,
-                                fontWeight: FontWeight.bold,
+                                fontSize: 56,
+                                fontWeight: FontWeight.w700,
                                 color: Color(0xFF6366F1),
-                                letterSpacing: 2,
+                                letterSpacing: -1,
+                                height: 1,
                               ),
                             ),
                           ],
                         ),
-                      ),
-                      const SizedBox(height: 8),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                            child: Text(
-                              'Games',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
+                        const SizedBox(height: 4),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              width: 20,
+                              height: 2,
+                              decoration: BoxDecoration(
                                 color: Color(0xFF1F2937),
+                                borderRadius: BorderRadius.circular(1),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
+                            const SizedBox(width: 8),
+                            Text(
+                              'Games',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF1F2937),
+                                letterSpacing: 1,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Container(
+                              width: 20,
+                              height: 2,
+                              decoration: BoxDecoration(
+                                color: Color(0xFF1F2937),
+                                borderRadius: BorderRadius.circular(1),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
-        ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDecoShape(Color color, double width, double height) {
+    return Container(
+      width: width,
+      height: height,
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.6),
+        borderRadius: BorderRadius.circular(height / 2),
       ),
     );
   }
