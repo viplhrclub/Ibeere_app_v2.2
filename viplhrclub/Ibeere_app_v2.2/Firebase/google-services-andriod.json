@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "4545412556",
+    "project_id": "ibeere-xens",
+    "storage_bucket": "ibeere-xens.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:4545412556:android:93ee7f731e0615f08fb169",
+        "android_client_info": {
+          "package_name": "com.ibeere.fun"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "4545412556-b7o7bhtqk2bm25k829o14ibm7tdc0sbh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOyDkgkjrHT51LyMqbzXjfOS5fW7ATtvA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "4545412556-b7o7bhtqk2bm25k829o14ibm7tdc0sbh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
