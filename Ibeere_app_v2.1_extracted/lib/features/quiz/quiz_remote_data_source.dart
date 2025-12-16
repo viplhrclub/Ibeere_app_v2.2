@@ -657,11 +657,11 @@ final class QuizRemoteDataSource {
         'play_questions': jsonEncode(playedQuestions),
         if (lifelines != null && lifelines.isNotEmpty)
           'lifeline': lifelines.join(','),
-        'no_of_hint_used': ?noOfHintUsed?.toString(),
+        if (noOfHintUsed != null) 'no_of_hint_used': noOfHintUsed.toString(),
         if (roomId != null && roomId.isNotEmpty) 'match_id': roomId,
         if (playWithBot != null) 'is_bot': playWithBot ? '1' : '0',
-        'match_id': ?matchId,
-        'joined_users_count': ?joinedUsersCount?.toString(),
+        if (matchId != null) 'match_id': matchId,
+        if (joinedUsersCount != null) 'joined_users_count': joinedUsersCount.toString(),
       };
 
       log('Body $body', name: 'setQuizCoinScore API');

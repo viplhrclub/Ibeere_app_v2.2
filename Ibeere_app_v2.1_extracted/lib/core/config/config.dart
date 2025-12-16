@@ -5,8 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 export 'colors.dart';
 
 /// === Config ===
-const appName = 'Elite Quiz';
-const packageName = 'com.wrteam.flutterquiz';
+const appName = 'Ibeere';
+const packageName = 'com.ibeere.app';
 
 /// Add your panel url here
 // NOTE: make sure to not add '/' at the end of url

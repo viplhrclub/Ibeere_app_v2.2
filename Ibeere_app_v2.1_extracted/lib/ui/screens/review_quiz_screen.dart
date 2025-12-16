@@ -1,277 +1,257 @@
 import 'package:flutter/material.dart';
-import 'package:flutterquiz/core/theme/design_tokens.dart';
-import 'package:flutterquiz/ui/widgets/ibeere_buttons.dart';
+import 'package:flutterquiz/core/theme/ibeere_tokens.dart';
+import 'package:flutterquiz/ui/widgets/ibeere_v2_buttons.dart';
 
-class ReviewQuizScreen extends StatefulWidget {
+class ReviewQuizScreen extends StatelessWidget {
   const ReviewQuizScreen({super.key});
 
-  @override
-  State<ReviewQuizScreen> createState() => _ReviewQuizScreenState();
-}
-
-class _ReviewQuizScreenState extends State<ReviewQuizScreen> {
-  int _selectedQuestionIndex = 0;
-  final List<Map<String, dynamic>> _questions = [
-    {
-      'question': 'What is the capital of France?',
-      'options': ['London', 'Berlin', 'Paris', 'Madrid'],
-      'correctAnswer': 2,
-      'userAnswer': 2,
-      'explanation': 'Paris is the capital city of France, located in the north-central part of the country.',
-    },
-    {
-      'question': 'Which planet is closest to the Sun?',
-      'options': ['Venus', 'Mercury', 'Mars', 'Earth'],
-      'correctAnswer': 1,
-      'userAnswer': 0,
-      'explanation': 'Mercury is the closest planet to the Sun, despite Venus being hotter.',
-    },
-    {
-      'question': 'What is the chemical symbol for gold?',
-      'options': ['Go', 'Gd', 'Au', 'Ag'],
-      'correctAnswer': 2,
-      'userAnswer': 2,
-      'explanation': 'Au is the chemical symbol for gold, derived from the Latin word "aurum".',
-    },
-  ];
+  static const String routeName = '/review-quiz';
 
   @override
   Widget build(BuildContext context) {
-    final currentQuestion = _questions[_selectedQuestionIndex];
-    final isCorrect = currentQuestion['userAnswer'] == currentQuestion['correctAnswer'];
+    final questions = [
+      {
+        'question': 'What is the powerhouse of the cell?',
+        'options': ['Mitochondria', 'Nucleus', 'Ribosome', 'Endoplasmic Reticulum'],
+        'correct': 0,
+        'selected': 0,
+        'isCorrect': true,
+      },
+      {
+        'question': 'What is the capital of France?',
+        'options': ['London', 'Berlin', 'Paris', 'Madrid'],
+        'correct': 2,
+        'selected': 2,
+        'isCorrect': true,
+      },
+      {
+        'question': 'What is 2 + 2?',
+        'options': ['3', '4', '5', '6'],
+        'correct': 1,
+        'selected': 2,
+        'isCorrect': false,
+      },
+      {
+        'question': 'Who painted the Mona Lisa?',
+        'options': ['Van Gogh', 'Da Vinci', 'Picasso', 'Monet'],
+        'correct': 1,
+        'selected': 1,
+        'isCorrect': true,
+      },
+      {
+        'question': 'What is the largest planet?',
+        'options': ['Earth', 'Mars', 'Jupiter', 'Saturn'],
+        'correct': 2,
+        'selected': 0,
+        'isCorrect': false,
+      },
+    ];
 
     return Scaffold(
-      backgroundColor: DesignTokens.background,
+      backgroundColor: IbeereDesignTokens.backgroundLight,
       appBar: AppBar(
-        backgroundColor: DesignTokens.background,
+        backgroundColor: Colors.white,
         elevation: 0,
-        title: Text(
-          'Review Quiz',
-          style: TextStyle(
-            color: DesignTokens.primary,
-            fontWeight: DesignTokens.fontWeightBold,
-          ),
-        ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: DesignTokens.primary),
+          icon: Icon(Icons.arrow_back, color: IbeereDesignTokens.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
+        title: Text('Review Quiz', style: TextStyle(color: IbeereDesignTokens.textPrimary, fontSize: 18, fontWeight: FontWeight.bold)),
       ),
       body: Column(
         children: [
-          // Progress Indicator
-          Padding(
-            padding: const EdgeInsets.all(DesignTokens.spaceLg),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+          Container(
+            padding: const EdgeInsets.all(16),
+            color: Colors.white,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Question ${_selectedQuestionIndex + 1}/${_questions.length}',
-                      style: TextStyle(
-                        fontSize: DesignTokens.fontSizeBase,
-                        fontWeight: DesignTokens.fontWeightMedium,
-                        color: Colors.grey[600],
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: DesignTokens.spaceSm,
-                        vertical: 4,
-                      ),
-                      decoration: BoxDecoration(
-                        color: isCorrect ? Colors.green[100] : Colors.red[100],
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: Text(
-                        isCorrect ? 'Correct' : 'Incorrect',
-                        style: TextStyle(
-                          fontSize: DesignTokens.fontSizeSm,
-                          color: isCorrect ? Colors.green[700] : Colors.red[700],
-                          fontWeight: DesignTokens.fontWeightBold,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: DesignTokens.spaceMd),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(4),
-                  child: LinearProgressIndicator(
-                    value: (_selectedQuestionIndex + 1) / _questions.length,
-                    minHeight: 6,
-                    backgroundColor: Colors.grey[200],
-                    valueColor: AlwaysStoppedAnimation<Color>(DesignTokens.primary),
-                  ),
-                ),
+                _buildSummaryItem(Icons.check_circle, 'Correct', '${questions.where((q) => q['isCorrect'] as bool).length}', IbeereDesignTokens.accentGreen),
+                _buildSummaryItem(Icons.cancel, 'Wrong', '${questions.where((q) => !(q['isCorrect'] as bool)).length}', IbeereDesignTokens.primaryRed),
+                _buildSummaryItem(Icons.question_answer, 'Total', '${questions.length}', IbeereDesignTokens.primaryPurple),
               ],
             ),
           ),
-
-          // Question Content
           Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: DesignTokens.spaceLg),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Question
-                  Text(
-                    currentQuestion['question'] as String,
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontWeight: DesignTokens.fontWeightBold,
+            child: ListView.builder(
+              padding: const EdgeInsets.all(16),
+              itemCount: questions.length,
+              itemBuilder: (context, index) {
+                final q = questions[index];
+                final isCorrect = q['isCorrect'] as bool;
+                
+                return Container(
+                  margin: const EdgeInsets.only(bottom: 16),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                      color: isCorrect ? IbeereDesignTokens.accentGreen.withOpacity(0.3) : IbeereDesignTokens.primaryRed.withOpacity(0.3),
+                      width: 2,
                     ),
+                    boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 8, offset: Offset(0, 2))],
                   ),
-                  const SizedBox(height: DesignTokens.spaceXl),
-
-                  // Options
-                  ...(currentQuestion['options'] as List<String>).asMap().entries.map((entry) {
-                    final index = entry.key;
-                    final option = entry.value;
-                    final isUserAnswer = index == currentQuestion['userAnswer'];
-                    final isCorrectAnswer = index == currentQuestion['correctAnswer'];
-
-                    var borderColor = Colors.grey[300] ?? Colors.grey;
-                    var bgColor = Colors.white;
-
-                    if (isCorrectAnswer) {
-                      borderColor = Colors.green;
-                      bgColor = Colors.green[50] ?? Colors.green;
-                    } else if (isUserAnswer && !isCorrectAnswer) {
-                      borderColor = Colors.red;
-                      bgColor = Colors.red[50] ?? Colors.red;
-                    }
-
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: DesignTokens.spaceMd),
-                      child: Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                          color: bgColor,
-                          border: Border.all(color: borderColor, width: 2),
-                          borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+                          color: isCorrect ? IbeereDesignTokens.accentGreen.withOpacity(0.1) : IbeereDesignTokens.primaryRed.withOpacity(0.1),
+                          borderRadius: BorderRadius.only(topLeft: Radius.circular(14), topRight: Radius.circular(14)),
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(DesignTokens.spaceMd),
-                          child: Row(
-                            children: [
-                              Container(
-                                width: 32,
-                                height: 32,
-                                decoration: BoxDecoration(
-                                  color: borderColor.withOpacity(0.5),
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    String.fromCharCode(65 + index),
-                                    style: TextStyle(
-                                      fontWeight: DesignTokens.fontWeightBold,
-                                      color: borderColor,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: DesignTokens.spaceMd),
-                              Expanded(
-                                child: Text(
-                                  option,
-                                  style: const TextStyle(
-                                    fontSize: DesignTokens.fontSizeBase,
-                                    fontWeight: DesignTokens.fontWeightMedium,
-                                  ),
-                                ),
-                              ),
-                              if (isCorrectAnswer)
-                                const Icon(Icons.check_circle, color: Colors.green, size: 20)
-                              else if (isUserAnswer)
-                                const Icon(Icons.cancel, color: Colors.red, size: 20),
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
-                  }),
-
-                  const SizedBox(height: DesignTokens.spaceXl),
-
-                  // Explanation
-                  Container(
-                    padding: const EdgeInsets.all(DesignTokens.spaceMd),
-                    decoration: BoxDecoration(
-                      color: Colors.blue[50],
-                      borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
-                      border: Border.all(color: Colors.blue[200] ?? Colors.blue),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
+                        child: Row(
                           children: [
-                            Icon(Icons.lightbulb_outline, color: Colors.blue[700], size: 20),
-                            const SizedBox(width: DesignTokens.spaceSm),
-                            Text(
-                              'Explanation',
-                              style: TextStyle(
-                                fontSize: DesignTokens.fontSizeBase,
-                                fontWeight: DesignTokens.fontWeightBold,
-                                color: Colors.blue[700],
+                            Container(
+                              width: 32,
+                              height: 32,
+                              decoration: BoxDecoration(
+                                color: isCorrect ? IbeereDesignTokens.accentGreen : IbeereDesignTokens.primaryRed,
+                                shape: BoxShape.circle,
                               ),
+                              child: Center(
+                                child: Text(
+                                  '${index + 1}',
+                                  style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Text(
+                                q['question'] as String,
+                                style: TextStyle(color: IbeereDesignTokens.textPrimary, fontSize: 16, fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                            Icon(
+                              isCorrect ? Icons.check_circle : Icons.cancel,
+                              color: isCorrect ? IbeereDesignTokens.accentGreen : IbeereDesignTokens.primaryRed,
+                              size: 28,
                             ),
                           ],
                         ),
-                        const SizedBox(height: DesignTokens.spaceSm),
-                        Text(
-                          currentQuestion['explanation'] as String,
-                          style: TextStyle(
-                            fontSize: DesignTokens.fontSizeBase,
-                            color: Colors.blue[900],
-                            height: 1.6,
-                          ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ...List.generate((q['options'] as List<String>).length, (optIndex) {
+                              final option = (q['options'] as List<String>)[optIndex];
+                              final isSelected = q['selected'] == optIndex;
+                              final isCorrectOption = q['correct'] == optIndex;
+                              
+                              Color getColor() {
+                                if (isCorrectOption) return IbeereDesignTokens.accentGreen;
+                                if (isSelected && !isCorrectOption) return IbeereDesignTokens.primaryRed;
+                                return IbeereDesignTokens.backgroundLight;
+                              }
+                              
+                              Color getTextColor() {
+                                if (isCorrectOption || (isSelected && !isCorrectOption)) return Colors.white;
+                                return IbeereDesignTokens.textPrimary;
+                              }
+
+                              return Container(
+                                margin: const EdgeInsets.only(bottom: 8),
+                                padding: const EdgeInsets.all(12),
+                                decoration: BoxDecoration(
+                                  color: getColor(),
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(
+                                    color: isCorrectOption ? IbeereDesignTokens.accentGreen :
+                                           isSelected ? IbeereDesignTokens.primaryRed : Color(0xFFE2E8F0),
+                                    width: 1,
+                                  ),
+                                ),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      width: 24,
+                                      height: 24,
+                                      decoration: BoxDecoration(
+                                        color: (isCorrectOption || (isSelected && !isCorrectOption)) ? Colors.white.withOpacity(0.2) : Colors.white,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          String.fromCharCode(65 + optIndex),
+                                          style: TextStyle(
+                                            color: getTextColor(),
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 12),
+                                    Expanded(
+                                      child: Text(
+                                        option,
+                                        style: TextStyle(color: getTextColor(), fontSize: 14),
+                                      ),
+                                    ),
+                                    if (isCorrectOption)
+                                      Icon(Icons.check, color: Colors.white, size: 20),
+                                    if (isSelected && !isCorrectOption)
+                                      Icon(Icons.close, color: Colors.white, size: 20),
+                                  ],
+                                ),
+                              );
+                            }),
+                            if (!isCorrect) ...[
+                              const SizedBox(height: 8),
+                              Container(
+                                padding: const EdgeInsets.all(12),
+                                decoration: BoxDecoration(
+                                  color: IbeereDesignTokens.accentYellow.withOpacity(0.1),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Row(
+                                  children: [
+                                    Icon(Icons.lightbulb, color: IbeereDesignTokens.accentYellow, size: 20),
+                                    const SizedBox(width: 8),
+                                    Expanded(
+                                      child: Text(
+                                        'Explanation: The correct answer is ${(q['options'] as List<String>)[q['correct'] as int]}',
+                                        style: TextStyle(color: IbeereDesignTokens.textSecondary, fontSize: 12),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: DesignTokens.spaceXl),
-                ],
-              ),
+                );
+              },
             ),
           ),
-
-          // Navigation Buttons
           Padding(
-            padding: const EdgeInsets.all(DesignTokens.spaceLg),
-            child: Row(
-              children: [
-                Expanded(
-                  child: IbeereSecondaryButton(
-                    label: 'Previous',
-                    onPressed: _selectedQuestionIndex > 0
-                        ? () => setState(() => _selectedQuestionIndex--)
-                        : () {},
-                  ),
-                ),
-                const SizedBox(width: DesignTokens.spaceMd),
-                Expanded(
-                  child: IbeerePrimaryButton(
-                    label: _selectedQuestionIndex < _questions.length - 1 ? 'Next' : 'Finish',
-                    onPressed: () {
-                      if (_selectedQuestionIndex < _questions.length - 1) {
-                        setState(() => _selectedQuestionIndex++);
-                      } else {
-                        Navigator.pop(context);
-                      }
-                    },
-                  ),
-                ),
-              ],
+            padding: const EdgeInsets.all(16),
+            child: IbeereButton(
+              text: 'Back to Home',
+              onPressed: () => Navigator.popUntil(context, (route) => route.isFirst),
+              icon: Icons.home,
             ),
           ),
         ],
       ),
     );
   }
+
+  Widget _buildSummaryItem(IconData icon, String label, String value, Color color) {
+    return Column(
+      children: [
+        Icon(icon, color: color, size: 32),
+        const SizedBox(height: 4),
+        Text(label, style: TextStyle(color: IbeereDesignTokens.textSecondary, fontSize: 12)),
+        const SizedBox(height: 2),
+        Text(value, style: TextStyle(color: color, fontSize: 20, fontWeight: FontWeight.bold)),
+      ],
+    );
+  }
 }
-
-

@@ -20,9 +20,18 @@ class CustomSwitch extends StatelessWidget {
         alignment: AlignmentDirectional.center,
         child: Switch(
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          activeThumbColor: context.primaryColor,
-          inactiveTrackColor: context.primaryTextColor.withValues(alpha: .3),
-          inactiveThumbColor: context.primaryTextColor.withValues(alpha: .8),
+          thumbColor: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.selected)) {
+              return context.primaryColor;
+            }
+            return context.primaryTextColor.withValues(alpha: .8);
+          }),
+          trackColor: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.selected)) {
+              return context.primaryColor.withValues(alpha: .5);
+            }
+            return context.primaryTextColor.withValues(alpha: .3);
+          }),
           value: value,
           trackOutlineColor: WidgetStateProperty.resolveWith((states) {
             if (states.contains(WidgetState.selected)) {
