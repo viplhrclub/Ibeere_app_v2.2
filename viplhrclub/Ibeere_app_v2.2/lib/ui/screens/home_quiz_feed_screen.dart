@@ -58,10 +58,11 @@ class _HomeQuizFeedScreenState extends State<HomeQuizFeedScreen> with SingleTick
 
   Widget _buildQuizZone() {
     final questions = [
-      {'category': 'Science', 'question': 'What is the powerhouse of the cell?', 'color': IbeereDesignTokens.primaryPurple},
-      {'category': 'History', 'question': 'Who was the first president?', 'color': IbeereDesignTokens.primaryPink},
-      {'category': 'Math', 'question': 'What is the square root of 144?', 'color': IbeereDesignTokens.accentCyan},
-      {'category': 'Geography', 'question': 'What is the capital of France?', 'color': IbeereDesignTokens.accentGreen},
+      {'category': 'General Knowledge', 'question': 'Qu\'est-ce que l\'indice des prix à la consommation (IPC)?', 'color': Color(0xFF6366F1)},
+      {'category': 'Economy', 'question': 'Qu\'est-ce que l\'externalité?', 'color': Color(0xFFEC4899)},
+      {'category': 'History', 'question': 'Quel pays a construit le mur de Berlin en 1961?', 'color': Color(0xFF10B981)},
+      {'category': 'General Knowledge', 'question': 'Qu\'est-ce que le capital humain?', 'color': Color(0xFF6366F1)},
+      {'category': 'Science', 'question': 'What is photosynthesis?', 'color': Color(0xFF8B5CF6)},
     ];
 
     return Stack(
