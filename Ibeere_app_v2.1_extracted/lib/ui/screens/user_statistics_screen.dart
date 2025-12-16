@@ -1,146 +1,377 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutterquiz/core/theme/ibeere_tokens.dart';
 
-class UserStatisticsScreen extends StatelessWidget {
+class UserStatisticsScreen extends StatefulWidget {
   const UserStatisticsScreen({super.key});
 
   static const String routeName = '/user-statistics';
+
+  @override
+  State<UserStatisticsScreen> createState() => _UserStatisticsScreenState();
+}
+
+class _UserStatisticsScreenState extends State<UserStatisticsScreen> {
+  Map<String, dynamic>? _statistics;
+  bool _isLoading = true;
+  String? _errorMessage;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchStatistics();
+  }
+
+  Future<void> _fetchStatistics() async {
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
+
+    try {
+      final response = await http.post(
+        Uri.parse('https://api.ibeere.fun/api/get_users_statistics'),
+        body: {'user_id': '1'},
+      );
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        if (data['error'] == false && data['data'] != null) {
+          setState(() {
+            _statistics = data['data'];
+            _isLoading = false;
+          });
+        } else {
+          setState(() {
+            _statistics = _getMockStatistics();
+            _errorMessage = 'Using demo data';
+            _isLoading = false;
+          });
+        }
+      } else {
+        throw Exception('Server error');
+      }
+    } catch (e) {
+      setState(() {
+        _statistics = _getMockStatistics();
+        _errorMessage = 'Using demo data';
+        _isLoading = false;
+      });
+    }
+  }
+
+  Map<String, dynamic> _getMockStatistics() {
+    return {
+      'questions_answered': '1250',
+      'correct_answers': '892',
+      'strong_category': 'Science',
+      'weak_category': 'History',
+      'ratio1': '71.4',
+      'best_position': '12',
+      'coins_earned': '8540',
+      'badges_earned': '15',
+      'battles_won': '47',
+      'daily_streak': '12',
+    };
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: IbeereDesignTokens.backgroundLight,
       body: SafeArea(
-        child: Stack(
+        child: Column(
           children: [
-            Positioned(top: 100, right: -30, child: _DecorativeCircle(color: Color(0xFF8B5CF6).withOpacity(0.08), size: 100)),
-            Positioned(bottom: 200, left: -40, child: _DecorativeCircle(color: Color(0xFFEC4899).withOpacity(0.08), size: 120)),
-            SingleChildScrollView(
-              child: Column(
-                children: [
-                  _buildHeader(context),
-                  const SizedBox(height: 24),
-                  _buildStatsCards(),
-                  const SizedBox(height: 24),
-                  _buildProgressSection(),
-                  const SizedBox(height: 24),
-                  _buildAchievementsSection(),
-                  const SizedBox(height: 40),
-                ],
+            _buildHeader(),
+            if (_isLoading)
+              const Expanded(
+                child: Center(child: CircularProgressIndicator()),
+              )
+            else
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    children: [
+                      _buildStatsGrid(),
+                      const SizedBox(height: 20),
+                      _buildAccuracyCard(),
+                      const SizedBox(height: 20),
+                      _buildCategoryStrength(),
+                      const SizedBox(height: 20),
+                      _buildAchievements(),
+                    ],
+                  ),
+                ),
               ),
-            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildHeader(BuildContext context) {
+  Widget _buildHeader() {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 8, offset: Offset(0, 2))],
-      ),
-      child: Row(
-        children: [
-          IconButton(
-            icon: Icon(Icons.arrow_back, color: IbeereDesignTokens.textPrimary),
-            onPressed: () => Navigator.pop(context),
-          ),
-          Expanded(
-            child: Text(
-              'Your Statistics',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: IbeereDesignTokens.textPrimary,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          const SizedBox(width: 48),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildStatsCards() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Row(
-        children: [
-          Expanded(
-            child: _buildStatCard(
-              'Total Quizzes',
-              '248',
-              IbeereDesignTokens.primaryPurple,
-              Icons.quiz,
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: _buildStatCard(
-              'Win Rate',
-              '78%',
-              IbeereDesignTokens.accentGreen,
-              Icons.trending_up,
-            ),
+        gradient: LinearGradient(
+          colors: [
+            IbeereDesignTokens.primaryPurple,
+            IbeereDesignTokens.primaryPink,
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: IbeereDesignTokens.primaryPurple.withOpacity(0.3),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildStatCard(String title, String value, Color color, IconData icon) {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: Offset(0, 4))],
       ),
       child: Column(
         children: [
+          Row(
+            children: [
+              IconButton(
+                icon: const Icon(Icons.arrow_back, color: Colors.white),
+                onPressed: () => Navigator.pop(context),
+              ),
+              Expanded(
+                child: Text(
+                  'Your Statistics',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 48),
+            ],
+          ),
+          if (_errorMessage != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: Text(
+                _errorMessage!,
+                style: TextStyle(
+                  color: Colors.white.withOpacity(0.9),
+                  fontSize: 12,
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStatsGrid() {
+    final answered = _statistics?['questions_answered']?.toString() ?? '0';
+    final correct = _statistics?['correct_answers']?.toString() ?? '0';
+    final coins = _statistics?['coins_earned']?.toString() ?? '0';
+    final battles = _statistics?['battles_won']?.toString() ?? '0';
+
+    return GridView.count(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      crossAxisCount: 2,
+      mainAxisSpacing: 16,
+      crossAxisSpacing: 16,
+      childAspectRatio: 1.4,
+      children: [
+        _buildStatCard('Questions\nAnswered', answered, Icons.quiz, IbeereDesignTokens.primaryPurple),
+        _buildStatCard('Correct\nAnswers', correct, Icons.check_circle, IbeereDesignTokens.accentGreen),
+        _buildStatCard('Coins\nEarned', coins, Icons.monetization_on, IbeereDesignTokens.accentYellow),
+        _buildStatCard('Battles\nWon', battles, Icons.emoji_events, IbeereDesignTokens.primaryPink),
+      ],
+    );
+  }
+
+  Widget _buildStatCard(String label, String value, IconData icon, Color color) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
           Container(
-            width: 48,
-            height: 48,
+            padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
               color: color.withOpacity(0.1),
-              shape: BoxShape.circle,
+              borderRadius: BorderRadius.circular(12),
             ),
-            child: Icon(icon, color: color, size: 24),
+            child: Icon(icon, color: color, size: 28),
           ),
           const SizedBox(height: 12),
           Text(
             value,
             style: TextStyle(
               color: IbeereDesignTokens.textPrimary,
-              fontSize: 28,
+              fontSize: 24,
               fontWeight: FontWeight.bold,
             ),
           ),
           const SizedBox(height: 4),
           Text(
-            title,
+            label,
             style: TextStyle(
               color: IbeereDesignTokens.textSecondary,
-              fontSize: 13,
+              fontSize: 12,
             ),
+            textAlign: TextAlign.center,
           ),
         ],
       ),
     );
   }
 
-  Widget _buildProgressSection() {
+  Widget _buildAccuracyCard() {
+    final ratio = double.tryParse(_statistics?['ratio1']?.toString() ?? '0') ?? 0.0;
+    final answered = int.tryParse(_statistics?['questions_answered']?.toString() ?? '0') ?? 0;
+    final correct = int.tryParse(_statistics?['correct_answers']?.toString() ?? '0') ?? 0;
+
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20),
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: Offset(0, 4))],
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          Text(
+            'Accuracy Rate',
+            style: TextStyle(
+              color: IbeereDesignTokens.textPrimary,
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              SizedBox(
+                width: 120,
+                height: 120,
+                child: CircularProgressIndicator(
+                  value: ratio / 100,
+                  strokeWidth: 12,
+                  backgroundColor: IbeereDesignTokens.textTertiary.withOpacity(0.2),
+                  valueColor: AlwaysStoppedAnimation(IbeereDesignTokens.primaryPurple),
+                ),
+              ),
+              Column(
+                children: [
+                  Text(
+                    '${ratio.toStringAsFixed(1)}%',
+                    style: TextStyle(
+                      color: IbeereDesignTokens.textPrimary,
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    'Accuracy',
+                    style: TextStyle(
+                      color: IbeereDesignTokens.textSecondary,
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Column(
+                children: [
+                  Text(
+                    correct.toString(),
+                    style: TextStyle(
+                      color: IbeereDesignTokens.accentGreen,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    'Correct',
+                    style: TextStyle(
+                      color: IbeereDesignTokens.textSecondary,
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
+              ),
+              Container(
+                width: 1,
+                height: 40,
+                color: IbeereDesignTokens.textTertiary.withOpacity(0.2),
+              ),
+              Column(
+                children: [
+                  Text(
+                    (answered - correct).toString(),
+                    style: TextStyle(
+                      color: IbeereDesignTokens.primaryRed,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    'Wrong',
+                    style: TextStyle(
+                      color: IbeereDesignTokens.textSecondary,
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCategoryStrength() {
+    final strong = _statistics?['strong_category']?.toString() ?? 'Science';
+    final weak = _statistics?['weak_category']?.toString() ?? 'History';
+
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -149,114 +380,98 @@ class UserStatisticsScreen extends StatelessWidget {
             'Category Performance',
             style: TextStyle(
               color: IbeereDesignTokens.textPrimary,
-              fontSize: 18,
+              fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 20),
-          _buildCategoryProgress('Science', 0.85, IbeereDesignTokens.primaryPurple, 124),
           const SizedBox(height: 16),
-          _buildCategoryProgress('History', 0.72, IbeereDesignTokens.primaryPink, 98),
-          const SizedBox(height: 16),
-          _buildCategoryProgress('Geography', 0.68, IbeereDesignTokens.accentCyan, 86),
-          const SizedBox(height: 16),
-          _buildCategoryProgress('Mathematics', 0.91, IbeereDesignTokens.accentYellow, 145),
+          _buildCategoryItem('Strongest', strong, IbeereDesignTokens.accentGreen, Icons.trending_up),
+          const SizedBox(height: 12),
+          _buildCategoryItem('Weakest', weak, IbeereDesignTokens.primaryRed, Icons.trending_down),
         ],
       ),
     );
   }
 
-  Widget _buildCategoryProgress(String category, double progress, Color color, int quizzes) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+  Widget _buildCategoryItem(String label, String category, Color color, IconData icon) {
+    return Row(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              category,
-              style: TextStyle(
-                color: IbeereDesignTokens.textPrimary,
-                fontSize: 15,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            Text(
-              '$quizzes quizzes',
-              style: TextStyle(
-                color: IbeereDesignTokens.textSecondary,
-                fontSize: 13,
-              ),
-            ),
-          ],
+        Container(
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: color.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Icon(icon, color: color, size: 24),
         ),
-        const SizedBox(height: 8),
-        Stack(
-          children: [
-            Container(
-              height: 8,
-              decoration: BoxDecoration(
-                color: IbeereDesignTokens.backgroundLight,
-                borderRadius: BorderRadius.circular(4),
-              ),
-            ),
-            FractionallySizedBox(
-              widthFactor: progress,
-              child: Container(
-                height: 8,
-                decoration: BoxDecoration(
-                  color: color,
-                  borderRadius: BorderRadius.circular(4),
-                  boxShadow: [BoxShadow(color: color.withOpacity(0.3), blurRadius: 4, offset: Offset(0, 2))],
+        const SizedBox(width: 12),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                label,
+                style: TextStyle(
+                  color: IbeereDesignTokens.textSecondary,
+                  fontSize: 12,
                 ),
               ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 4),
-        Text(
-          '${(progress * 100).toInt()}% accuracy',
-          style: TextStyle(
-            color: color,
-            fontSize: 12,
-            fontWeight: FontWeight.w600,
+              Text(
+                category,
+                style: TextStyle(
+                  color: IbeereDesignTokens.textPrimary,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
           ),
         ),
       ],
     );
   }
 
-  Widget _buildAchievementsSection() {
+  Widget _buildAchievements() {
+    final badges = _statistics?['badges_earned']?.toString() ?? '15';
+    final streak = _statistics?['daily_streak']?.toString() ?? '12';
+    final bestRank = _statistics?['best_position']?.toString() ?? '12';
+
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20),
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [IbeereDesignTokens.primaryPurple, IbeereDesignTokens.primaryPink],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [BoxShadow(color: IbeereDesignTokens.primaryPurple.withOpacity(0.3), blurRadius: 15, offset: Offset(0, 8))],
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Recent Achievements',
+            'Achievements',
             style: TextStyle(
-              color: Colors.white,
-              fontSize: 18,
+              color: IbeereDesignTokens.textPrimary,
+              fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 16),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              _buildAchievementIcon(Icons.emoji_events, 'Champion'),
-              _buildAchievementIcon(Icons.flash_on, 'Speed King'),
-              _buildAchievementIcon(Icons.star, 'Elite'),
-              _buildAchievementIcon(Icons.workspace_premium, 'Master'),
+              Expanded(
+                child: _buildAchievementItem('Badges', badges, Icons.emoji_events),
+              ),
+              Expanded(
+                child: _buildAchievementItem('Day Streak', streak, Icons.local_fire_department),
+              ),
+              Expanded(
+                child: _buildAchievementItem('Best Rank', '#$bestRank', Icons.military_tech),
+              ),
             ],
           ),
         ],
@@ -264,36 +479,40 @@ class UserStatisticsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildAchievementIcon(IconData icon, String label) {
+  Widget _buildAchievementItem(String label, String value, IconData icon) {
     return Column(
       children: [
         Container(
-          width: 56,
-          height: 56,
+          padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.2),
-            shape: BoxShape.circle,
+            gradient: LinearGradient(
+              colors: [
+                IbeereDesignTokens.primaryPurple,
+                IbeereDesignTokens.primaryPink,
+              ],
+            ),
+            borderRadius: BorderRadius.circular(12),
           ),
           child: Icon(icon, color: Colors.white, size: 28),
         ),
         const SizedBox(height: 8),
         Text(
+          value,
+          style: TextStyle(
+            color: IbeereDesignTokens.textPrimary,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Text(
           label,
           style: TextStyle(
-            color: Colors.white,
+            color: IbeereDesignTokens.textSecondary,
             fontSize: 11,
-            fontWeight: FontWeight.w500,
           ),
+          textAlign: TextAlign.center,
         ),
       ],
     );
   }
-}
-
-class _DecorativeCircle extends StatelessWidget {
-  final Color color;
-  final double size;
-  const _DecorativeCircle({required this.color, required this.size});
-  @override
-  Widget build(BuildContext context) => Container(width: size, height: size, decoration: BoxDecoration(color: color, shape: BoxShape.circle));
 }
